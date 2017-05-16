@@ -1,0 +1,48 @@
+* {
+	box-sizing: border-box;
+}
+
+p {
+	border: 1px solid red;
+}
+
+form, form>label, form>label>input {
+	display: block;
+}
+
+form>label {
+	font-weight: bold;
+}
+
+form>label>input {
+	font-weight: normal;
+}
+
+form>label, form>label>input {
+	width: 100%;
+}
+
+form {
+	margin: 50px auto 0;
+	width: 25%;
+	min-width: 250px;
+}
+
+.error+form {
+	margin-top: 10px;
+}
+
+form>label+label {
+	margin-top: 10px;
+}
+
+.error {
+	margin: 30px auto 0;
+	width: 25%;
+	min-width: 250px;
+	
+	border: 1px solid red;
+	color: red;
+	font-weight: bold;
+	text-align: center;
+}
