@@ -35,7 +35,7 @@ public class UserDAO {
 			return null;
 
 		int id = dao.create("insert into users (name, email, password, password_salt) values (?, ?, ?, ?)",
-				dto.getName(), dto.getEmail());
+				dto.getName(), dto.getEmail(), dto.getPassword(), dto.getPasswordSalt());
 		return get(id);
 	}
 
