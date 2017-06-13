@@ -46,4 +46,26 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.8</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- <configuration>
+					<rulesets>
+						<ruleset>pmd_custom_ruleset.xml</ruleset>
+					</rulesets>
+				</configuration> -->
+			</plugin>
+		</plugins>
+	</build>
 </project>
