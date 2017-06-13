@@ -2,6 +2,7 @@ package com.smart.home.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -52,6 +53,10 @@ public class ConnectionPool {
 
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/smart_home", "root", "");
+
+			// WORKS ONLY ON MYSQL
+			PreparedStatement statement = connection.prepareStatement("set time_zone = '+00:00'");
+			statement.execute();
 
 			System.out.println("## Got a new Connection!!");
 

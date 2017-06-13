@@ -1,8 +1,15 @@
 package com.smart.home.database;
 
+import static org.joda.time.DateTimeZone.UTC;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import com.smart.home.dto.SignUpUserDTO;
 import com.smart.home.dto.UserDTO;
@@ -18,16 +25,19 @@ public class UserDAO {
 			final String name = result.getString("name");
 			final String email = result.getString("email");
 
-			return new User(id, name, email);
+			final Timestamp date = result.getTimestamp("last_sign_in");
+			final LocalDateTime dt = date == null ? null : new LocalDateTime(date.getTime());
+
+			return new User(id, name, email, dt.toDateTime(UTC));
 		}
 	};
 
 	public List<User> list() {
-		return dao.list("select user_id, name, email from users", converter);
+		return dao.list("select user_id, name, email, last_sign_in from users", converter);
 	}
 
 	public User get(final int id) {
-		return dao.get("select user_id, name, email from users where user_id = ?", converter, id);
+		return dao.get("select user_id, name, email, last_sign_in from users where user_id = ?", converter, id);
 	}
 
 	public User signUp(final SignUpUserDTO dto) {
