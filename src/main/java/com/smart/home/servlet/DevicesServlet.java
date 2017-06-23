@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.smart.home.database.UserDAO;
 import com.smart.home.database.UserDeviceDAO;
-import com.smart.home.model.User;
 import com.smart.home.model.UserDevice;
 
 @WebServlet("/devices")
@@ -19,9 +17,6 @@ public class DevicesServlet extends HttpServlet {
 
 	@Override // GET = leitura
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<User> list = new UserDAO().list();
-		req.setAttribute("users", list);
-
 		long start = System.currentTimeMillis();
 		List<UserDevice> allDevices = new UserDeviceDAO().list();
 		long end = System.currentTimeMillis();

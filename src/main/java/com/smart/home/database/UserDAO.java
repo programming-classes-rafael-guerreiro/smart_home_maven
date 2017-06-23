@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
 
+import com.smart.home.dto.SignInUserDTO;
 import com.smart.home.dto.SignUpUserDTO;
 import com.smart.home.dto.UserDTO;
 import com.smart.home.model.User;
@@ -26,9 +26,9 @@ public class UserDAO {
 			final String email = result.getString("email");
 
 			final Timestamp date = result.getTimestamp("last_sign_in");
-			final LocalDateTime dt = date == null ? null : new LocalDateTime(date.getTime());
+			final DateTime dt = date == null ? null : new LocalDateTime(date.getTime()).toDateTime(UTC);
 
-			return new User(id, name, email, dt.toDateTime(UTC));
+			return new User(id, name, email, dt);
 		}
 	};
 
@@ -52,5 +52,19 @@ public class UserDAO {
 	public User update(final int id, final UserDTO dto) {
 		dao.update("update users set name = ? where user_id = ?", id, dto.getName());
 		return get(id);
+	}
+
+	public User signIn(final SignInUserDTO dto) {
+		if (dto == null || dto.isInvalid())
+			return null;
+
+		List<User> list = dao.list(
+				"select user_id, name, email, last_sign_in from users where lower(email) = lower(?) and password = ? and password_salt = ?",
+				converter, dto.getEmail(), dto.getPassword(), dto.getPasswordSalt());
+
+		if (list.isEmpty())
+			return null;
+
+		return list.get(0);
 	}
 }
