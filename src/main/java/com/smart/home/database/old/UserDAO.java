@@ -1,4 +1,4 @@
-package com.smart.home.database;
+package com.smart.home.database.old;
 
 import static org.joda.time.DateTimeZone.UTC;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 
+import com.mysql.jdbc.Connection;
 import com.smart.home.dto.SignInUserDTO;
 import com.smart.home.dto.SignUpUserDTO;
 import com.smart.home.dto.UserDTO;
@@ -17,7 +18,7 @@ import com.smart.home.model.User;
 
 // DAO = Data Access Object
 public class UserDAO {
-	private final GenericDAO<User> dao = new GenericDAO<User>();
+	private final GenericDAO<User> dao;
 	private final GenericConverter<User> converter = new GenericConverter<User>() {
 		@Override
 		public User convert(ResultSet result) throws SQLException {
@@ -32,15 +33,19 @@ public class UserDAO {
 		}
 	};
 
-	public List<User> list() {
+	public UserDAO(Connection connection) {
+		dao = new GenericDAO<>(connection);
+	}
+
+	public List<User> list() throws SQLException {
 		return dao.list("select user_id, name, email, last_sign_in from users", converter);
 	}
 
-	public User get(final int id) {
+	public User get(final int id) throws SQLException {
 		return dao.get("select user_id, name, email, last_sign_in from users where user_id = ?", converter, id);
 	}
 
-	public User signUp(final SignUpUserDTO dto) {
+	public User signUp(final SignUpUserDTO dto) throws SQLException {
 		if (dto == null || dto.isInvalid())
 			return null;
 
@@ -49,12 +54,12 @@ public class UserDAO {
 		return get(id);
 	}
 
-	public User update(final int id, final UserDTO dto) {
+	public User update(final int id, final UserDTO dto) throws SQLException {
 		dao.update("update users set name = ? where user_id = ?", id, dto.getName());
 		return get(id);
 	}
 
-	public User signIn(final SignInUserDTO dto) {
+	public User signIn(final SignInUserDTO dto) throws SQLException {
 		if (dto == null || dto.isInvalid())
 			return null;
 

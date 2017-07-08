@@ -2,6 +2,22 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
+	<!-- <bean id="deviceController" class="com.smart.home.controller.DevicesController">
+		<property name="repository" ref="deviceRepository" />
+	</bean>
+
+	<bean id="deviceRepository" class="com.smart.home.database.DeviceDAO">
+		<constructor-arg type="java.sql.Connection" ref="mysqlConnection" />
+	</bean>
+
+	<bean id="mysqlConnection" class="java.sql.Connection"
+		factory-bean="mysqlConnectionProvider" factory-method="getConnection">
+	</bean>
+
+	<bean id="mysqlConnectionProvider" class="com.smart.home.database.MysqlConnectionProvider">
+	</bean> -->
+	
+
 	<!-- <bean id="fileEventType" class="com.devdaily.springtest1.bean.FileEventType">
 		<property name="eventType" value="10" />
 		<property name="description" value="A sample description here" />
